@@ -3,7 +3,8 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { AppModule } from './src/app.module';
-import * as express from 'express';
+//import * as express from 'express';
+import express from 'express'; 
 
 const server = express();
 
