@@ -2,7 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ChargeService } from './charge.service';
 import { CreateChargeDto } from './dto/create-charge.dto';
 import { UpdateChargeDto } from './dto/update-charge.dto';
-import * as Omise from 'omise';
+//import * as Omise from 'omise';
+import Omise from 'omise';
 
 const omise = Omise({
   secretKey: 'skey_test_6394uqh7l1xqvte1lwa',
