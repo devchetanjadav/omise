@@ -36,6 +36,52 @@ export class ChargeController {
     }
   }
 
+  @Post('create')
+  async createCharge(@Body() body: { amount: number; type: string; returnUri: string; token: string;  source: string; }) {
+    //return this.chargeService.create(createChargeDto);
+
+    try {
+
+      let chargeId:string = '';
+      let authorizeUri:string = '';
+
+      if(body.type == 'card'){
+
+        const charge = await omise.charges.create({
+          amount: body.amount * 100, // Omise uses the smallest currency unit
+          currency: 'THB',
+          card: body.token,
+          capture: true, // Capture immediately (default)
+        });
+
+        console.log('Charge Captured:', charge);
+        chargeId = charge.id;
+
+      }else{
+        
+        const charge = await omise.charges.create({
+          amount: body.amount * 100, // Omise uses the smallest currency unit
+          currency: 'THB',
+          source: body.source, // Use token from frontend
+          capture: true, // Capture immediately (default)
+          return_uri: body.returnUri
+        });
+
+        console.log('Charge Captured:', charge);
+
+        chargeId = charge.id;
+        authorizeUri = charge.authorize_uri
+
+      }
+
+      return {status:'success', message: "", data:{"chargeId":chargeId, "authorizeUri":authorizeUri}}
+
+    } catch (error) {
+      console.error('Charge Error:', error);
+      return {status:'error', message: error, data:{}}
+    }
+  }
+
   @Get()
   async findAll() {
     
